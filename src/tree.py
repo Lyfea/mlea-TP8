@@ -8,6 +8,8 @@ class Tree:
 
     def __init__(self, datas, cond, avail_attrs):
         self.sons = []
+        self.chosen_one = 0
+        self.entropy = 0
         self.cond = cond
         self.avail_attrs = avail_attrs
         self.datas = [data for data in datas if cond(data)]
@@ -39,11 +41,11 @@ class Tree:
                 break
         if stop:
             return
-        chosen_one = entropy.compute_index_entropy(self.datas, self.avail_attrs)
+        [self.chosen_one, self.entropy] = entropy.compute_index_entropy(self.datas, self.avail_attrs)
         new_av_attr = list(self.avail_attrs)
-        new_av_attr.remove(chosen_one)
-        for values in self.attrs[chosen_one]:
-            self.set_son(lambda data: data.datas[chosen_one] == values, new_av_attr)
+        new_av_attr.remove(self.chosen_one)
+        for values in self.attrs[self.chosen_one]:
+            self.set_son(lambda data: data.datas[self.chosen_one] == values, new_av_attr)
 
 def init_root_tennis():
     datas_t = tennis_data.datas_tennis()
@@ -57,13 +59,23 @@ def init_root_tennis():
     Tree.attrs = attrs
     return Tree(datas, lambda a: True, range(0, len(datas[0].datas) - 1))
 
+def print_node(node, f):
+    if not node.sons:
+        f.write('test' + ' ')#node.attr_name)
+        return
+    f.write('[.' + 'test' + ' ')#node.attr_name)
+    for son in node.sons:
+        print_node(son, f)
+    f.write(']')
+    return
+
 def print_tree(tree):
-    print("Tree:")
-    for data in tree.datas:
-        print(data)
-    print("-----------------")
-    for son in tree.sons:
-        print_tree(son)
+    f = open('mytree.tex', 'w')
+    f.write('\\documentclass[border=10]{standalone} \n \\usepackage{qtree} \n \\begin{document} \n \\Tree ')
+    print_node(tree, f)
+    f.write('\n\end{document}')
+    f.close()
+    return
 
 if __name__ == "__main__":
     t = init_root_tennis()

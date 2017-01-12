@@ -52,4 +52,4 @@ def compute_index_entropy(datas, attr_array):
             value_res = tmp
             attr_res = attr
         print(tmp)
-    return attr_res
+    return [attr_res, value_res]
