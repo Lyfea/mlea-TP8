@@ -1,44 +1,44 @@
 class MushroomData:
 
-    def __init__(self, label, cap_shape, cap_surface, cap_color, bruises, odor,
-                 gill_attachment, gill_spacing, gill_size, gill_color,
-                 stalk_shape, stalk_root, stalk_surface_ar, stalk_surface_br,
-                 stalk_color_ar, stalk_color_br, veil_type, veil_color,
-                 ring_number, ring_type, spore_print_color, population, habitat):
+    def __init__(self, label, capshape, capsurface, capcolor, bruises, odor,
+                 gillattachment, gillspacing, gillsize, gillcolor,
+                 stalkshape, stalkroot, stalksurfacear, stalksurfacebr,
+                 stalkcolorar, stalkcolorbr, veiltype, veilcolor,
+                 ringnumber, ringtype, sporeprintcolor, population, habitat):
         self.label = 1 if label == 'e' else 0
-        self.cap_shape = cap_shape
-        self.cap_surface = cap_surface
-        self.cap_color = cap_color
+        self.capshape = capshape
+        self.capsurface = capsurface
+        self.capcolor = capcolor
         self.bruises = bruises 
         self.odor = odor 
-        self.gill_attachment = odor 
-        self.gill_spacing = gill_spacing
-        self.gill_size = gill_size
-        self.gill_color = gill_color
-        self.stalk_shape = stalk_shape
-        self.stalk_root = stalk_root
-        self.stalk_surface_ar = stalk_surface_ar
-        self.stalk_surface_br = stalk_surface_br
-        self.stalk_color_ar = stalk_color_ar
-        self.stalk_color_br = stalk_color_br
-        self.veil_type = veil_type
-        self.veil_color = veil_color
-        self.ring_number = ring_number
-        self.ring_type = ring_type
-        self.spore_print_color = spore_print_color
+        self.gillattachment = odor 
+        self.gillspacing = gillspacing
+        self.gillsize = gillsize
+        self.gillcolor = gillcolor
+        self.stalkshape = stalkshape
+        self.stalkroot = stalkroot
+        self.stalksurfacear = stalksurfacear
+        self.stalksurfacebr = stalksurfacebr
+        self.stalkcolorar = stalkcolorar
+        self.stalkcolorbr = stalkcolorbr
+        self.veiltype = veiltype
+        self.veilcolor = veilcolor
+        self.ringnumber = ringnumber
+        self.ringtype = ringtype
+        self.sporeprintcolor = sporeprintcolor
         self.population = population
         self.habitat = habitat
 
     def __str__(self):
-        return str(self.label) + " " + self.cap_shape + " " + self.cap_surface +\
-               " " + self.cap_color + " " + self.bruises + " " + self.odor +\
-               " " + self.gill_attachment + " " + self.gill_spacing + " " +\
-               self.gill_size + " " + self.gill_color + " " + self.stalk_shape +\
-               " " + self.stalk_root + " " + self.stalk_surface_ar + " " +\
-               self.stalk_surface_br + " " + self.stalk_color_ar + " " +\
-               self.stalk_color_br + " " + self.veil_type + " " +\
-               self.veil_color + " " + self.ring_number + " " + self.ring_type +\
-               " " + self.spore_print_color + " " + self.population + " " +\
+        return str(self.label) + " " + self.capshape + " " + self.capsurface +\
+               " " + self.capcolor + " " + self.bruises + " " + self.odor +\
+               " " + self.gillattachment + " " + self.gillspacing + " " +\
+               self.gillsize + " " + self.gillcolor + " " + self.stalkshape +\
+               " " + self.stalkroot + " " + self.stalksurfacear + " " +\
+               self.stalksurfacebr + " " + self.stalkcolorar + " " +\
+               self.stalkcolorbr + " " + self.veiltype + " " +\
+               self.veilcolor + " " + self.ringnumber + " " + self.ringtype +\
+               " " + self.sporeprintcolor + " " + self.population + " " +\
                self.habitat
 
 def get_mushroom_data_from_file(f):
