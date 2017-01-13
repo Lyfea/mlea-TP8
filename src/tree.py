@@ -10,7 +10,7 @@ class Tree:
         self.sons = []
         self.chosen_one = -1
         self.edge = edge
-        self.entropy = 0
+        self.entropy = -1
         self.cond = cond
         self.avail_attrs = avail_attrs
         self.datas = [data for data in datas if cond(data)]
@@ -41,6 +41,13 @@ class Tree:
                 stop = False
                 break
         if stop:
+            t_f = [0, 0]
+            for data_loop in self.datas:
+                t_f[data_loop.datas[-1]] += 1
+            self.entropy = 0
+            if t_f[0] != 0 and t_f[1] != 0:
+                tfs = t_f[0] + t_f[1]
+                self.entropy += tfs / len(self.datas) * entropy(t_f)
             return
         [self.chosen_one, self.entropy] = entropy.compute_index_entropy(self.datas, self.avail_attrs)
         new_av_attr = list(self.avail_attrs)
@@ -62,9 +69,10 @@ def init_root_tennis():
 
 def print_node(node, f, names):
     if node.chosen_one >= 0:
-        f.write('[' + names[node.chosen_one]);
+        f.write('\n[{' + names[node.chosen_one] + '?');
     else:
-        f.write('[' + ('True' if node.label else 'False'));
+        f.write('\n[{' + ('True' if node.label else 'False'));
+    f.write(' (Entropy=' + str(node.entropy) + ')}')
     if (node.edge):
         f.write(',edge label={node[midway,font=\\scriptsize] {' + str(node.edge) + '}}')
     for son in node.sons:
@@ -76,14 +84,15 @@ def print_tree(tree):
     names = [a for a, v in sorted(vars(tennis_data.datas_tennis()[0]).items())]
     names.remove('label')
     f = open('mytree.tex', 'w')
-    f.write('\\documentclass[border=5]{standalone} \n \
-            \\usepackage{forest} \n \
-            \\begin{document} \n \
-            \\begin{forest} \n \
-            ')
+    f.write(\
+'\\documentclass[border=5]{standalone}\n\
+\\usepackage{forest}\n\
+\\begin{document}\n\
+\\begin{forest}')
     print_node(tree, f, names)
-    f.write(' \n \\end{forest} \n \
-            \\end{document}')
+    f.write('\
+\n\\end{forest} \n\
+\\end{document}')
     f.close()
     return
 

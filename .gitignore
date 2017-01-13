@@ -6,3 +6,4 @@ __pycache__
 *.aux
 *.tex
 *.pdf
+data
