@@ -65,3 +65,7 @@ if __name__ == "__main__":
     print(len(mushroom_datas))
     print(str(mushroom_datas[0]))
     print(str(mushroom_datas[-1]))
+    for data in mushroom_datas:
+        if data.gillattachment == 'n':
+            print(str(data.label))
+

@@ -34,6 +34,13 @@ class Tree:
     def build(self):
         if len(self.avail_attrs) == 0:
             return
+        t_f = [0, 0]
+        for data_loop in self.datas:
+            t_f[data_loop.datas[-1]] += 1
+        self.entropy = 0
+        if t_f[0] != 0 and t_f[1] != 0:
+            tfs = t_f[0] + t_f[1]
+            self.entropy += tfs / len(self.datas) * entropy.entropy(t_f)
         stop = True
         nb_label = self.datas[0].datas[-1]
         for d in self.datas:
@@ -41,18 +48,11 @@ class Tree:
                 stop = False
                 break
         if stop:
-            t_f = [0, 0]
-            for data_loop in self.datas:
-                t_f[data_loop.datas[-1]] += 1
-            self.entropy = 0
-            if t_f[0] != 0 and t_f[1] != 0:
-                tfs = t_f[0] + t_f[1]
-                self.entropy += tfs / len(self.datas) * entropy(t_f)
             return
-        [self.chosen_one, self.entropy] = entropy.compute_index_entropy(self.datas, self.avail_attrs)
+        self.chosen_one = entropy.compute_index_entropy(self.datas, self.avail_attrs)
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
-        for values in self.attrs[self.chosen_one]:
+        for values in sorted(self.attrs[self.chosen_one]):
             cond = lambda data, co=self.chosen_one,v=values: data.datas[co] == v
             if any(cond(datata) for datata in self.datas):
                 self.set_son(cond, new_av_attr, values)
@@ -73,7 +73,7 @@ def print_node(node, f, names):
         f.write('\n[{' + names[node.chosen_one] + '?');
     else:
         f.write('\n[{' + ('True' if node.label else 'False'));
-    f.write(' (Entropy=' + str(node.entropy) + ')}')
+    f.write(' (Entropy=' + "{:1.3f}".format(node.entropy) + ')}')
     if (node.edge):
         f.write(',edge label={node[midway,font=\\scriptsize] {' + str(node.edge) + '}}')
     for son in node.sons:
