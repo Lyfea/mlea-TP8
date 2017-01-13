@@ -6,12 +6,6 @@ Humidity: High=1, Normal=2
 Wind: Strong=1, Weak=2
 PlayTennis: Yes=1, No=2"""
 
-    outlook2str = { 1:"Sunny", 2:"Overcast", 3:"Rain"}
-    temp2str = { 1:"Hot", 2:"Mild", 3:"Cool"}
-    hum2str = { 1:"High", 2:"Normal"}
-    wind2str = { 1:"Strong", 2:"Weak"}
-    pt2str = { 0:"Yes", 1:"No"}
-
     def __init__(self, outlook, temp, humidity, wind, label):
         self.outlook = outlook
         self.temp = temp
@@ -23,25 +17,25 @@ PlayTennis: Yes=1, No=2"""
         print(Data.enum)
 
     def __str__(self):
-        return TennisData.outlook2str[self.outlook] + ", " + TennisData.temp2str[self.temp] + ", " + TennisData.hum2str[self.humidity] + ", " + TennisData.wind2str[self.wind] + ", " + TennisData.pt2str[self.label]
+        return self.outlook + ", " + self.temp + ", " + self.humidity + ", " + self.wind + ", " + str(self.label)
 
 
 def datas_tennis():
     datas = []
-    datas.append(TennisData(1, 1, 1, 2, 1))
-    datas.append(TennisData(1, 1, 1, 1, 1))
-    datas.append(TennisData(2, 1, 1, 2, 0))
-    datas.append(TennisData(3, 2, 1, 2, 0))
-    datas.append(TennisData(3, 3, 2, 2, 0))
-    datas.append(TennisData(3, 3, 2, 1, 1))
-    datas.append(TennisData(2, 3, 2, 1, 0))
-    datas.append(TennisData(1, 2, 1, 2, 1))
-    datas.append(TennisData(1, 3, 2, 2, 0))
-    datas.append(TennisData(3, 2, 2, 2, 0))
-    datas.append(TennisData(1, 2, 2, 1, 0))
-    datas.append(TennisData(2, 2, 1, 1, 0))
-    datas.append(TennisData(2, 1, 2, 2, 0))
-    datas.append(TennisData(3, 2, 1, 1, 1))
+    datas.append(TennisData("Sunny", "Hot", "High", "Weak", 0))
+    datas.append(TennisData("Sunny", "Hot", "High", "Strong", 0))
+    datas.append(TennisData("Overcast", "Hot", "High", "Weak", 1))
+    datas.append(TennisData("Rain", "Mild", "High", "Weak", 1))
+    datas.append(TennisData("Rain", "Cool", "Normal", "Weak", 1))
+    datas.append(TennisData("Rain", "Cool", "Normal", "Strong", 0))
+    datas.append(TennisData("Overcast", "Cool", "Normal", "Strong", 1))
+    datas.append(TennisData("Sunny", "Mild", "High", "Weak", 0))
+    datas.append(TennisData("Sunny", "Cool", "Normal", "Weak", 1))
+    datas.append(TennisData("Rain", "Mild", "Normal", "Weak", 1))
+    datas.append(TennisData("Sunny", "Mild", "Normal", "Strong", 1))
+    datas.append(TennisData("Overcast", "Mild", "High", "Strong", 1))
+    datas.append(TennisData("Overcast", "Hot", "Normal", "Weak", 1))
+    datas.append(TennisData("Rain", "Mild", "High", "Strong", 0))
     return datas
 
 if __name__ == "__main__":
