@@ -53,9 +53,9 @@ class Tree:
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
         for values in self.attrs[self.chosen_one]:
-            self.set_son(\
-                    lambda data, co=self.chosen_one,v=values:\
-                    data.datas[co] == v, new_av_attr, values)
+            cond = lambda data, co=self.chosen_one,v=values: data.datas[co] == v
+            if any(cond(datata) for datata in self.datas):
+                self.set_son(cond, new_av_attr, values)
 
 def init_root(unformated_datas):
     datas = []
@@ -81,8 +81,8 @@ def print_node(node, f, names):
     f.write(']')
     return
 
-def print_tree(tree):
-    names = [a for a, v in sorted(vars(tennis_data.datas_tennis()[0]).items())]
+def print_tree(tree, obj):
+    names = [a for a, v in sorted(vars(obj).items())]
     names.remove('label')
     f = open('mytree.tex', 'w')
     f.write(\
@@ -99,7 +99,7 @@ def print_tree(tree):
 
 if __name__ == "__main__":
     t = init_root(tennis_data.datas_tennis())
-    print_tree(t)
+    print_tree(t, tennis_data.TennisData("Sunny", "Hot", "High", "Weak", 0))
 
     data_t = tennis_data.TennisData("Sunny", "Hot", "High", "Weak", 0)
     print(str(data_t))
