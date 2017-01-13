@@ -53,12 +53,13 @@ class Tree:
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
         for values in self.attrs[self.chosen_one]:
-            self.set_son(lambda data: data.datas[self.chosen_one] == values, new_av_attr, values)
+            self.set_son(\
+                    lambda data, co=self.chosen_one,v=values:\
+                    data.datas[co] == v, new_av_attr, values)
 
-def init_root_tennis():
-    datas_t = tennis_data.datas_tennis()
+def init_root(unformated_datas):
     datas = []
-    for d in datas_t:
+    for d in unformated_datas:
         datas.append(data.Data(d))
     attrs = [ set() for _ in range(0, len(datas[0].datas) - 1) ]
     for data_loop in datas:
@@ -97,7 +98,7 @@ def print_tree(tree):
     return
 
 if __name__ == "__main__":
-    t = init_root_tennis()
+    t = init_root(tennis_data.datas_tennis())
     print_tree(t)
 
     data_t = tennis_data.TennisData("Sunny", "Hot", "High", "Weak", 0)
