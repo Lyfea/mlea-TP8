@@ -7,7 +7,7 @@ import mushroom_data
 
 def main():
     datas = data.get_data_from_file(argv[1])
-    entropy_fun = entropy.GiniImpurity
+    entropy_fun = entropy.Entropy
     t = tree.init_root(datas, entropy_fun)
     tree.print_tree(t)
 

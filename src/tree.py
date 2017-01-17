@@ -56,7 +56,7 @@ class Tree:
         for data in self.datas:
             dist_val_attr.add(data[self.chosen_one])
 
-        for value in dist_val_attr:
+        for value in sorted(dist_val_attr):
             cond = lambda data, co=self.chosen_one,v=value: data[co] == v
             if any(cond(datata) for datata in self.datas):
                 self.set_son(cond, new_av_attr, value)
@@ -81,7 +81,7 @@ def print_node(node, f, names):
 
 def print_tree(tree):
     names = tree.name_attrs
-    f = open('mytree.tex', 'w')
+    f = open('trees/mytree.tex', 'w')
     f.write(\
 '\\documentclass[border=5]{standalone}\n\
 \\usepackage{forest}\n\
