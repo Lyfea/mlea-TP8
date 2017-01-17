@@ -1,5 +1,11 @@
 class MushroomData:
 
+    name_attrs = ["capshape", " capsurface", " capcolor", " bruises", " odor",
+                 "gillattachment", " gillspacing", " gillsize", " gillcolor",\
+                 "stalkshape", " stalkroot", " stalksurfacear", " stalksurfacebr",\
+                 "stalkcolorar", " stalkcolorbr", " veiltype", " veilcolor",\
+                 "ringnumber", " ringtype", " sporeprintcolor", " population", " habitat"]
+
     def __init__(self, label, capshape, capsurface, capcolor, bruises, odor,
                  gillattachment, gillspacing, gillsize, gillcolor,
                  stalkshape, stalkroot, stalksurfacear, stalksurfacebr,

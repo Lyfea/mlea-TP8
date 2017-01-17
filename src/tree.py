@@ -5,6 +5,7 @@ import entropy
 class Tree:
 
     attrs = 0
+    name_attrs = []
 
     def __init__(self, datas, cond, avail_attrs, edge):
         self.sons = []
@@ -66,6 +67,7 @@ def init_root(unformated_datas):
         for i in range(0, len(data_loop.datas) - 1):
             attrs[i].add(data_loop.datas[i])
     Tree.attrs = attrs
+    Tree.name_attrs = sorted(unformated_datas[0].name_attrs)
     return Tree(datas, lambda a: True, range(0, len(datas[0].datas) - 1), '')
 
 def print_node(node, f, names):
@@ -81,9 +83,8 @@ def print_node(node, f, names):
     f.write(']')
     return
 
-def print_tree(tree, obj):
-    names = [a for a, v in sorted(vars(obj).items())]
-    names.remove('label')
+def print_tree(tree):
+    names = tree.name_attrs
     f = open('mytree.tex', 'w')
     f.write(\
 '\\documentclass[border=5]{standalone}\n\
