@@ -44,8 +44,11 @@ class Tree:
         self.entropy_val = Tree.entropy_fun(label_values)
         if len(self.avail_attrs) == 0 or len(labels) < 2:
             return
-        self.chosen_one = entropy.compute_index_entropy(self.datas,\
-                                  self.avail_attrs, Tree.entropy_fun)
+        [self.chosen_one, attr_entr] = entropy.compute_index_entropy(self.datas,\
+                                    self.avail_attrs, Tree.entropy_fun, \
+                                    self.entropy_val)
+        if (attr_entr == 0):
+            return
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
 
