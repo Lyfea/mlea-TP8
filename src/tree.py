@@ -14,11 +14,6 @@ class Tree:
         self.cond = cond
         self.avail_attrs = avail_attrs
         self.datas = [data for data in datas if cond(data)]
-        nb_data_true = 0
-        for data in self.datas:
-            if data[-1] == 'e':
-                nb_data_true += 1
-        self.label = nb_data_true > (len(self.datas) / 2)
         self.build()
 
     def set_son(self, cond, avail_attrs, edge):
@@ -32,6 +27,13 @@ class Tree:
         return self.label
 
     def build(self):
+        labels = {}
+        for data in self.datas:
+            if not data[-1] in labels:
+                labels[data[-1]] = 1
+            else:
+                labels[data[-1]] += 1
+        self.label = max(labels.keys(), key=lambda k:labels[k])
         if len(self.avail_attrs) == 0:
             return
         label_values = {}
@@ -43,13 +45,7 @@ class Tree:
         self.entropy = 0
         tfs = sum(label_values.values())
         self.entropy += tfs / len(self.datas) * entropy.entropy(label_values)
-        stop = True
-        first_label = self.datas[0][-1]
-        for d in self.datas:
-            if d[-1] != first_label:
-                stop = False
-                break
-        if stop:
+        if len(labels) < 2:
             return
         self.chosen_one = entropy.compute_index_entropy(self.datas, self.avail_attrs)
         new_av_attr = list(self.avail_attrs)
@@ -72,7 +68,7 @@ def print_node(node, f, names):
     if node.chosen_one >= 0:
         f.write('\n[{' + names[node.chosen_one] + '?');
     else:
-        f.write('\n[{' + ('True' if node.label else 'False'));
+        f.write('\n[{' + (node.label));
     f.write(' (Entropy=' + "{:1.3f}".format(node.entropy) + ')}')
     if (node.edge):
         f.write(',edge label={node[midway,font=\\scriptsize] {' + str(node.edge) + '}}')
