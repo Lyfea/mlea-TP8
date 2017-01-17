@@ -2,11 +2,15 @@ import data
 import math
 
 def entropy(label_values):
-    tfs = sum(label_values.values())
+    nbdata = sum(label_values.values())
     res = 0
     for value in label_values.values():
-        res -= value * math.log2(value / tfs)
-    return res / tfs
+        res -= value * math.log2(value / nbdata)
+    return res / nbdata
+
+def gini_impurity(label_values):
+    nbdata = sum(label_values.values())
+    return sum([(value / nbdata) * (1 - value / nbdata) for value in label_values.values()])
 
 def compute_entropy_attr(datas, attr_index):
     attr_values = {}
@@ -21,8 +25,8 @@ def compute_entropy_attr(datas, attr_index):
 
     res = 0
     for key, label_values in attr_values.items():
-        tfs = sum(label_values.values())
-        res += tfs / len(datas) * entropy(label_values)
+        nbdata = sum(label_values.values())
+        res += nbdata / len(datas) * entropy(label_values)
 
     return res
 
