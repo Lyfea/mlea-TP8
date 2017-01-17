@@ -50,6 +50,7 @@ class MushroomData:
 def get_mushroom_data_from_file(f):
     fd = open(f)
     mushroom_datas = []
+    mushroom_datas.append(fd.readline().split(','))
     for line in fd.readlines():
         data_line = line.split(',')
         data_line[-1] = data_line[-1][0]

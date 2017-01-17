@@ -4,7 +4,6 @@ import entropy
 
 class Tree:
 
-    attrs = 0
     name_attrs = []
 
     def __init__(self, datas, cond, avail_attrs, edge):
@@ -17,7 +16,7 @@ class Tree:
         self.datas = [data for data in datas if cond(data)]
         nb_data_true = 0
         for data in self.datas:
-            if data.datas[-1] == 1:
+            if data[-1] == 'e':
                 nb_data_true += 1
         self.label = nb_data_true > (len(self.datas) / 2)
         self.build()
@@ -35,17 +34,19 @@ class Tree:
     def build(self):
         if len(self.avail_attrs) == 0:
             return
-        t_f = [0, 0]
+        label_values = {}
         for data_loop in self.datas:
-            t_f[data_loop.datas[-1]] += 1
+            if not data_loop[-1] in label_values:
+                label_values[data_loop[-1]] = 1
+            else:
+                label_values[data_loop[-1]] += 1
         self.entropy = 0
-        if t_f[0] != 0 and t_f[1] != 0:
-            tfs = t_f[0] + t_f[1]
-            self.entropy += tfs / len(self.datas) * entropy.entropy(t_f)
+        tfs = sum(label_values.values())
+        self.entropy += tfs / len(self.datas) * entropy.entropy(label_values)
         stop = True
-        nb_label = self.datas[0].datas[-1]
+        first_label = self.datas[0][-1]
         for d in self.datas:
-            if d.datas[-1] != nb_label:
+            if d[-1] != first_label:
                 stop = False
                 break
         if stop:
@@ -53,22 +54,19 @@ class Tree:
         self.chosen_one = entropy.compute_index_entropy(self.datas, self.avail_attrs)
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
-        for values in sorted(self.attrs[self.chosen_one]):
-            cond = lambda data, co=self.chosen_one,v=values: data.datas[co] == v
-            if any(cond(datata) for datata in self.datas):
-                self.set_son(cond, new_av_attr, values)
 
-def init_root(unformated_datas):
-    datas = []
-    for d in unformated_datas:
-        datas.append(data.Data(d))
-    attrs = [ set() for _ in range(0, len(datas[0].datas) - 1) ]
-    for data_loop in datas:
-        for i in range(0, len(data_loop.datas) - 1):
-            attrs[i].add(data_loop.datas[i])
-    Tree.attrs = attrs
-    Tree.name_attrs = sorted(unformated_datas[0].name_attrs)
-    return Tree(datas, lambda a: True, range(0, len(datas[0].datas) - 1), '')
+        dist_val_attr = set()
+        for data in self.datas:
+            dist_val_attr.add(data[self.chosen_one])
+
+        for value in dist_val_attr:
+            cond = lambda data, co=self.chosen_one,v=value: data[co] == v
+            if any(cond(datata) for datata in self.datas):
+                self.set_son(cond, new_av_attr, value)
+
+def init_root(datas):
+    Tree.name_attrs = datas.attr_names
+    return Tree(datas.values, lambda a: True, range(0, len(datas.attr_names) - 1), '')
 
 def print_node(node, f, names):
     if node.chosen_one >= 0:
@@ -97,11 +95,3 @@ def print_tree(tree):
 \\end{document}')
     f.close()
     return
-
-if __name__ == "__main__":
-    t = init_root(tennis_data.datas_tennis())
-    print_tree(t, tennis_data.TennisData("Sunny", "Hot", "High", "Weak", 0))
-
-    data_t = tennis_data.TennisData("Sunny", "Hot", "High", "Weak", 0)
-    print(str(data_t))
-    print(t.classify(data.Data(data_t)))

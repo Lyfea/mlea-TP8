@@ -1,0 +1,15 @@
+outlook,temp,humidity,wind,label
+s,h,h,w,y
+s,h,h,s,y
+o,h,h,w,n
+r,m,h,w,n
+r,c,n,w,n
+r,c,n,s,y
+o,c,n,s,n
+s,m,h,w,y
+s,c,n,w,n
+r,m,n,w,n
+s,m,n,s,n
+o,m,h,s,n
+o,h,n,w,n
+r,m,h,s,y

@@ -6,7 +6,7 @@ Humidity: High=1, Normal=2
 Wind: Strong=1, Weak=2
 PlayTennis: Yes=1, No=2"""
 
-    name_attrs = ["outlook", "temp", "humidity", "wind", "label"]
+    name_attrs = ["outlook", "temp", "humidity", "wind"]
 
     def __init__(self, outlook, temp, humidity, wind, label):
         self.outlook = outlook
