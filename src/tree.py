@@ -68,29 +68,25 @@ def init_root(datas, entropy_fun):
     return Tree(datas.values, lambda a: True, range(0, len(datas.attr_names) - 1), '')
 
 def print_node(node, f, names):
-    if node.chosen_one >= 0:
-        f.write('\n[{' + names[node.chosen_one] + '?');
+    node_name = ''
+    if node.chosen_one < 0:
+        node_name += node.label;
     else:
-        f.write('\n[{' + (node.label));
-    f.write(' (' + Tree.entropy_fun.__name__ + '=' + "{:1.3f}".format(node.entropy_val) + ')}')
+        node_name += names[node.chosen_one] + '?';
+    node_name += ' (' + Tree.entropy_fun.__name__ + "={:1.3f}".format(node.entropy_val) + ')'
     if (node.edge):
-        f.write(',edge label={node[midway,font=\\scriptsize] {' + str(node.edge) + '}}')
+        f.write('"' + str(node) + '" [label="' + str(node.edge) + '"];\n')
+    f.write('  {"' + str(node) + '" [label="' + node_name + '"]};\n')
     for son in node.sons:
+        f.write('  "' + str(node) + '" -> ')
         print_node(son, f, names)
-    f.write(']')
     return
 
 def print_tree(tree):
     names = tree.name_attrs
-    f = open('trees/mytree.tex', 'w')
-    f.write(\
-'\\documentclass[border=5]{standalone}\n\
-\\usepackage{forest}\n\
-\\begin{document}\n\
-\\begin{forest}')
+    f = open('trees/mytree.dot', 'w')
+    f.write('digraph g {\n')
     print_node(tree, f, names)
-    f.write('\
-\n\\end{forest} \n\
-\\end{document}')
+    f.write('}\n')
     f.close()
     return
