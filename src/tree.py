@@ -35,6 +35,7 @@ class Tree:
             else:
                 labels[data[-1]] += 1
         self.label = max(labels.keys(), key=lambda k:labels[k])
+        self.error = len(self.datas) - labels[self.label]
         label_values = {}
         for data_loop in self.datas:
             if not data_loop[-1] in label_values:
@@ -42,13 +43,13 @@ class Tree:
             else:
                 label_values[data_loop[-1]] += 1
         self.entropy_val = Tree.entropy_fun(label_values)
-        if len(self.avail_attrs) == 0 or len(labels) < 2:
+        if len(self.avail_attrs) == 0 or self.entropy_val == 0:
             return
         [self.chosen_one, attr_entr] = entropy.compute_index_entropy(self.datas,\
                                     self.avail_attrs, Tree.entropy_fun, \
                                     self.entropy_val)
-        if (attr_entr == 0):
-            return
+        #if (attr_entr <= 0):
+        #    return
         new_av_attr = list(self.avail_attrs)
         new_av_attr.remove(self.chosen_one)
 

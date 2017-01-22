@@ -35,10 +35,10 @@ def compute_entropy_attr(datas, attr_index, entropy_fun, cur_node_entropy):
     if (IG == 0):
         return 0
 
-    return IG / IV
+    return IG #/ IV
 
 def compute_index_entropy(datas, attr_array, entropy_fun, cur_node_entropy):
-    attr_entr = 0
+    attr_entr = -99999999
     attr_res = -1
     for attr in attr_array:
         tmp = compute_entropy_attr(datas, attr, entropy_fun, cur_node_entropy)
