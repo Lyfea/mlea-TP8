@@ -20,7 +20,9 @@ def get_data_from_file(f):
         del data_line[label_index]
         data_line.append(label)
         datas.append(data_line)
-    return Data(datas, attr_names)
+
+    bound = int(len(datas) /  7 * 6)
+    return [Data(datas[:bound], attr_names), datas[bound:]]
 
 
 

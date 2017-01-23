@@ -4,6 +4,7 @@ Le script mushroom.sh lance l'entrainement et le test d'un arbre utilisant
 le gain d'information standard et l'entropie sur les données de mushroom.
 Le fichier mytree.png est généré dans le répertoire trees et est ouvert.
 
-Le script mnist.sh lance l'entrainement et le test d'un arbre utilisant
-le gain d'information standard et l'entropie sur les données de mnist.
-Un fichier mytree.svg est généré dans le répertoire trees.
+Le script mnist.sh prend en premier argument le fichier mnist en format csv et
+lance l'entrainement et le test d'un arbre utilisant le gain d'information
+standard et l'entropie sur les données de mnist. Un fichier mytree.svg est
+généré dans le répertoire trees.
