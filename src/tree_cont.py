@@ -1,6 +1,6 @@
 import tennis_data
 import data
-import entropy
+import entropy_cont
 
 class Tree:
 
@@ -45,22 +45,19 @@ class Tree:
         self.entropy_val = Tree.entropy_fun(label_values)
         if len(self.avail_attrs) == 0 or self.entropy_val == 0:
             return
-        [self.chosen_one, attr_entr] = entropy.compute_index_entropy(self.datas,\
+        [self.chosen_one, attr_entr, bound] = entropy_cont.compute_index_entropy(self.datas,\
                                     self.avail_attrs, Tree.entropy_fun, \
                                     self.entropy_val)
+        print(Tree.name_attrs[self.chosen_one])
+        print(bound)
         if (attr_entr <= 0):
             return
         new_av_attr = list(self.avail_attrs)
-        new_av_attr.remove(self.chosen_one)
 
-        dist_val_attr = set()
-        for data in self.datas:
-            dist_val_attr.add(data[self.chosen_one])
-
-        for value in sorted(dist_val_attr):
-            cond = lambda data, co=self.chosen_one,v=value: data[co] == v
-            if any(cond(datata) for datata in self.datas):
-                self.set_son(cond, new_av_attr, value)
+        cond = lambda data, co=self.chosen_one,b=bound: float(data[co]) <= b
+        self.set_son(cond, new_av_attr, "<= " + str(bound))
+        cond = lambda data, co=self.chosen_one,b=bound: float(data[co]) > b
+        self.set_son(cond, new_av_attr, "> " + str(bound))
 
 def init_root(datas, entropy_fun):
     Tree.name_attrs = datas.attr_names
